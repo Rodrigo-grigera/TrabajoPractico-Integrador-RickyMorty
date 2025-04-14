@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo Practico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Rick y Morty</h1>
+
+    <label>Filtrar Personajes</label>
+    <div>
+    <select id="filtroEstado">
+        <option value="">Todos</option>
+        <option value="alive">Alive</option>
+        <option value="dead">Dead</option>
+        <option value="unknown">Unknown</option>
+    </select>
+    <button id="boton">Filtrar</button>
+</div>
+
+    <div class="buscar-nombre">
+        <label for="input">Buscar por nombre</label>
+        <div>
+            <input id="input" type="text" placeholder="Ingresar nombre">
+            <button id="buscar">Buscar</button>
+        </div>
+    </div>
+        
+    <dialog id="modal">
+        <button id="cerrar">X</button>
+        <div id="modal-body"></div>
+    </dialog>
+    
+    <div id="tarjeta">
+        
+    </div>
+    
+    <div class="ant-sigu">
+        <button id="anterior">Anterior</button>
+        <button id="siguiente">Siguiente</button>
+    </div>
+
+    
+    <script src="index.js" ></script>
+</body>
+</html>
