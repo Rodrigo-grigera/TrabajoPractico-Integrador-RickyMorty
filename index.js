@@ -53,8 +53,9 @@ const crearCarta = async () => {
       const carta = document.createElement("div"); //creamos un elemneto de forma directa
       carta.classList.add("carta");
       carta.innerHTML = `
-          <img src="${element.image}" alt="${element.name}">
-          <h2>${element.name}</h2>`;
+            <img src="${element.image}" alt="${element.name}">
+            <h2>${element.name}</h2>
+            <p><span>Estado: </span> ${element.status}</p>`;
 
       carta.addEventListener("click", () => {
         cardModal.innerHTML = `
