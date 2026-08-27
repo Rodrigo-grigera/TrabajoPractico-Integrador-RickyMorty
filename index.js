@@ -13,9 +13,30 @@ const getPersonajes = async () => {
       throw new Error("Error de al cargar los personajes");
     }
     const data = await resp.json();
-    return data.results;
+    return data;
   } catch (error) {
     throw error;
+  }
+};
+const abilitarDesabilitar = async () => {
+  const resp = await getPersonajes();
+
+  if (resp.info.next === null && resp.info.prev === null) {
+    // Solo existe una página
+    btn_next.disabled = true;
+    btn_back.disabled = true;
+  } else if (resp.info.prev === null) {
+    // Primera página
+    btn_next.disabled = false;
+    btn_back.disabled = true;
+  } else if (resp.info.next === null) {
+    // Última página
+    btn_next.disabled = true;
+    btn_back.disabled = false;
+  } else {
+    // Página intermedia
+    btn_next.disabled = false;
+    btn_back.disabled = false;
   }
 };
 
@@ -24,18 +45,20 @@ const documento = document.getElementById("tarjeta");
 const crearCarta = async () => {
   try {
     const pers = await getPersonajes();
-    pers.forEach((element) => {
+    console.log(pers);
+    pers.results.forEach((element) => {
       const carta = document.createElement("div"); //creamos un elemneto de forma directa
       carta.classList.add("carta");
       carta.innerHTML = `
           <img src="${element.image}" alt="${element.name}">
-          <h2>${element.name}</h2>`;
+          <h2>${element.name}</h2>
+          <p>${element.status}</p>
+          `;
       documento.appendChild(carta);
     });
-
   } catch (error) {
     const mensaje = document.createElement("p");
-    mensaje.innerHTML = "No se pudieron cargar los personajes";
+    mensaje.innerHTML = "Personajes no encontrados, o  mal escrito";
     documento.appendChild(mensaje);
   }
 };
@@ -45,22 +68,58 @@ crearCarta();
 const btn_next = document.getElementById("next");
 const btn_back = document.getElementById("back");
 
-const paginaSiguiente = () => {
+const pageNext = () => {
   paginaActual++;
-  if (paginaActual > 1) btn_back.disabled = false;
-  if (paginaActual === 42) btn_next.disabled = true;
+  abilitarDesabilitar();
   documento.innerHTML = "";
   crearCarta();
 };
 
-btn_next.addEventListener("click", paginaSiguiente);
+btn_next.addEventListener("click", pageNext);
 
-const pagAnterior = () => {
+const pageBack = () => {
   paginaActual = paginaActual - 1;
-  if (paginaActual === 1) {
-    btn_back.disabled = true;
-  }
+  abilitarDesabilitar();
   documento.innerHTML = "";
   crearCarta();
 };
-btn_back.addEventListener("click", pagAnterior);
+
+btn_back.addEventListener("click", pageBack);
+
+const filter = document.getElementById("filterEstado");
+const btn_reset = document.getElementById("reset");
+
+const obtenerValorFilter = () => {
+  state = filter.value;
+  getPersonajes();
+  documento.innerHTML = "";
+  crearCarta();
+};
+
+filter.addEventListener("change", obtenerValorFilter);
+
+const inputSerch = document.getElementById("input");
+const btn_serch = document.getElementById("buscar");
+
+const serch = () => {
+  paginaActual = 1;
+  nombre = inputSerch.value;
+  inputSerch.value = "";
+  getPersonajes();
+  documento.innerHTML = "";
+  crearCarta();
+  abilitarDesabilitar();
+};
+
+const reset = () => {
+  paginaActual = 1;
+  nombre = "";
+  state = filter.value = "";
+  documento.innerHTML = "";
+  getPersonajes();
+  abilitarDesabilitar();
+  crearCarta();
+};
+
+btn_serch.addEventListener("click", serch);
+btn_reset.addEventListener("click", reset);
