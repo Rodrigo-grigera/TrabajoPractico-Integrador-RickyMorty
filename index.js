@@ -42,6 +42,10 @@ const abilitarDesabilitar = async () => {
 
 const documento = document.getElementById("tarjeta");
 
+const modalaOpen = document.getElementById("modal");
+const closeModal = document.getElementById("cerrar");
+const cardModal = document.getElementById("modal-body");
+
 const crearCarta = async () => {
   try {
     const pers = await getPersonajes();
@@ -51,9 +55,21 @@ const crearCarta = async () => {
       carta.classList.add("carta");
       carta.innerHTML = `
           <img src="${element.image}" alt="${element.name}">
-          <h2>${element.name}</h2>
-          <p>${element.status}</p>
-          `;
+          <h2>${element.name}</h2>`;
+          
+      carta.addEventListener("click", () => {
+        cardModal.innerHTML = `
+        <div>
+            <img src="${element.image}" alt="${element.name}">
+        </div>
+              <h2><span>Nombre:</span> ${element.name}</h2>
+              <p><span>Genero:</span> ${element.gender}</p>
+              <p><span>Especie:</span> ${element.specie}</p>
+              <p><span>Origen: </span> ${element.origin.name}</p>
+              <p><span>Estado: </span> ${element.status}</p>
+            `;
+        modalaOpen.showModal();
+      });
       documento.appendChild(carta);
     });
   } catch (error) {
@@ -63,6 +79,7 @@ const crearCarta = async () => {
   }
 };
 
+closeModal.addEventListener("click", () => modalaOpen.close());
 crearCarta();
 
 const btn_next = document.getElementById("next");
