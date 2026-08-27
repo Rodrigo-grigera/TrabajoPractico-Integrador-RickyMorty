@@ -45,7 +45,6 @@ const documento = document.getElementById("tarjeta");
 const crearCarta = async () => {
   try {
     const pers = await getPersonajes();
-    console.log(pers);
     pers.results.forEach((element) => {
       const carta = document.createElement("div"); //creamos un elemneto de forma directa
       carta.classList.add("carta");
