@@ -55,17 +55,20 @@ const crearCarta = async () => {
       carta.innerHTML = `
           <img src="${element.image}" alt="${element.name}">
           <h2>${element.name}</h2>`;
-          
+
       carta.addEventListener("click", () => {
         cardModal.innerHTML = `
         <div>
             <img src="${element.image}" alt="${element.name}">
         </div>
-              <h2><span>Nombre:</span> ${element.name}</h2>
-              <p><span>Genero:</span> ${element.gender}</p>
-              <p><span>Especie:</span> ${element.specie}</p>
-              <p><span>Origen: </span> ${element.origin.name}</p>
-              <p><span>Estado: </span> ${element.status}</p>
+        
+        <ul>
+            <li><span>Nombre:</span> ${element.name}</li>
+            <li><span>Genero:</span> ${element.gender}</li>
+            <li><span>Especie:</span> ${element.specie}</li>
+            <li><span>Origen: </span> ${element.origin.name}</li>
+            <li><span>Estado: </span> ${element.status}</li>
+        </ul>
             `;
         modalaOpen.showModal();
       });
